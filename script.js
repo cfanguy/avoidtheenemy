@@ -75,6 +75,15 @@ function createSnakes() {
 	snakes[6].velocity = { x: 0, y: 0 };
 	snakes.push(snakeEnemy(460, 460, 25, 25));
 	snakes[7].velocity = { x: 0, y: 0 };
+	
+	snakes.push(snakeEnemy(80, 80, 25, 25));
+	snakes[8].velocity = { x: 0, y: 0 };
+	snakes.push(snakeEnemy(480, 80, 25, 25));
+	snakes[9].velocity = { x: 0, y: 0 };
+	snakes.push(snakeEnemy(80, 480, 25, 25));
+	snakes[10].velocity = { x: 0, y: 0 };
+	snakes.push(snakeEnemy(480, 480, 25, 25));
+	snakes[11].velocity = { x: 0, y: 0 };
 }
 
 
@@ -151,14 +160,14 @@ function moveSnake(p, vx, vy) {
 
 // Updates the state of the game for the next frame
 function update() {
-	player.velocity.x = 3 * (!!keyPressed[68] - !!keyPressed[65]) // right - left
+	player.velocity.x = 3 * (!!keyPressed[68] - !!keyPressed[65])
 	player.velocity.y = 3 * (!!keyPressed[83] - !!keyPressed[87])
 
 	movePlayer(player, player.velocity.x, player.velocity.y)
 	
 	for(i = 0; i < snakes.length; i++) {
-		// set first 4 snakes to follow player
-		for (i = 0; i < 4; i++) {
+		// set first snake to follow player
+		for (i = 0; i < 1; i++) {
             if (player.x < snakes[i].x - (i * 8 + i)) {
                 snakes[i].velocity.x = -1;
             }
@@ -174,9 +183,11 @@ function update() {
             moveSnake(snakes[i], snakes[i].velocity.x, snakes[i].velocity.y);
         }
 		// set other snakes to go random places
-		for (i = 4; i < snakes.length; i++) {
-			snakes[i].velocity.x = Math.round(Math.random()) == 1 ? 1 : -1;
-			snakes[i].velocity.y = Math.round(Math.random()) == 1 ? 1 : -1;
+		for (i = 1; i < snakes.length; i++) {
+			if(score % 40 == 0) {
+				snakes[i].velocity.x = Math.round(Math.random()) == 1 ? 1 : -1;
+				snakes[i].velocity.y = Math.round(Math.random()) == 1 ? 1 : -1;
+			}
             
 			moveSnake(snakes[i], snakes[i].velocity.x, snakes[i].velocity.y);
         }
@@ -187,7 +198,7 @@ function update() {
 }
 
 
-// Renders a frame
+// renders a frame
 function draw() {
 	var c = document.getElementById('screen').getContext('2d');
 
@@ -234,7 +245,7 @@ function draw() {
 }
 
 
-// Set up the game loop
+// set up the game loop
 window.onload = function() {
 	setInterval(function() {
 		if(gameOver == false) {
