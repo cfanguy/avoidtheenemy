@@ -1,3 +1,4 @@
+var LR, FB, originLR, originFB;
 var rects = [];
 var snakes = [];
 var score = 0;
@@ -160,8 +161,28 @@ function moveSnake(p, vx, vy) {
 
 // Updates the state of the game for the next frame
 function update() {
-	player.velocity.x = 3 * (!!keyPressed[68] - !!keyPressed[65])
-	player.velocity.y = 3 * (!!keyPressed[83] - !!keyPressed[87])
+    var horizontal = 0, vertical = 0;
+    if (LR > originLR + 6) {
+        horizontal = -1;
+    }
+    else
+    {
+        if (LR < originLR - 6) {
+            horizontal = 1;
+        }
+    }
+
+    if (FB > originFB + 6) {
+        vertical = 1;
+    }
+    else {
+        if (FB < originFB - 6) {
+            vertical = -1;
+        }
+    }
+
+    player.velocity.x = 3 * horizontal;//(!!keyPressed[68] - !!keyPressed[65])
+    player.velocity.y = 3 * vertical;//(!!keyPressed[83] - !!keyPressed[87])
 
 	movePlayer(player, player.velocity.x, player.velocity.y)
 	
@@ -248,9 +269,27 @@ function draw() {
 // set up the game loop
 window.onload = function() {
 	setInterval(function() {
-		if(gameOver == false) {
+		//if(gameOver == false) {
 			update();
 			draw();
-		}
+		//}
 	}, 1000 / 60);
+	if (window.DeviceOrientationEvent) {
+	    window.addEventListener('deviceorientation', function (eventData) {
+	        LR = eventData.gamma;
+	        FB = eventData.alpha;
+
+	        if (originLR == null) {
+	            setOrigin(LR, FB);
+	        }
+	    });
+	}
+	else {
+	    alert("Device Orientation not supported on device or browser.");
+	}
+}
+
+function setOrigin(leftRight, frontBack) {
+    originLR = leftRight;
+    originFB = frontBack;
 }
