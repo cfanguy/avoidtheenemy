@@ -269,10 +269,10 @@ function draw() {
 // set up the game loop
 window.onload = function() {
 	setInterval(function() {
-		//if(gameOver == false) {
+		if(gameOver == false) {
 			update();
 			draw();
-		//}
+		}
 	}, 1000 / 60);
 	if (window.DeviceOrientationEvent) {
 	    window.addEventListener('deviceorientation', function (eventData) {
