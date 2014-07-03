@@ -276,8 +276,8 @@ window.onload = function() {
 	}, 1000 / 60);
 	if (window.DeviceOrientationEvent) {
 	    window.addEventListener('deviceorientation', function (eventData) {
-	        LR = eventData.gamma;
-	        FB = eventData.alpha;
+	        LR = eventData.alpha;
+	        FB = eventData.beta;
 
 	        if (originLR == null) {
 	            setOrigin(LR, FB);
