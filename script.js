@@ -279,7 +279,13 @@ window.onload = function() {
 	        LR = eventData.alpha;
 	        FB = eventData.beta;
 
-	        if (originLR == null) {
+	        document.getElementById("originLR").innerHTML = originLR;
+	        document.getElementById("originFB").innerHTML = originFB;
+
+	        document.getElementById("LR").innerHTML = LR;
+	        document.getElementById("FB").innerHTML = FB;
+
+	        if (originLR == null || originLR == 0) {
 	            setOrigin(LR, FB);
 	        }
 	    });
