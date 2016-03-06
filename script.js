@@ -181,14 +181,15 @@ function update() {
         }
     }
 
-    player.velocity.x = 3 * horizontal;//(!!keyPressed[68] - !!keyPressed[65])
-    player.velocity.y = 3 * vertical;//(!!keyPressed[83] - !!keyPressed[87])
+    player.velocity.x = 3 * (!!keyPressed[68] - !!keyPressed[65]);
+    player.velocity.y = 3 * (!!keyPressed[83] - !!keyPressed[87]);
 
 	movePlayer(player, player.velocity.x, player.velocity.y)
 	
-	for(i = 0; i < snakes.length; i++) {
+	for(var i = 0; i < snakes.length; i++) {
 		// set first snake to follow player
-		for (i = 0; i < 1; i++) {
+		if(i === 0)
+        {
             if (player.x < snakes[i].x - (i * 8 + i)) {
                 snakes[i].velocity.x = -1;
             }
@@ -204,7 +205,8 @@ function update() {
             moveSnake(snakes[i], snakes[i].velocity.x, snakes[i].velocity.y);
         }
 		// set other snakes to go random places
-		for (i = 1; i < snakes.length; i++) {
+        else
+        {
 			if(score % 40 == 0) {
 				snakes[i].velocity.x = Math.round(Math.random()) == 1 ? 1 : -1;
 				snakes[i].velocity.y = Math.round(Math.random()) == 1 ? 1 : -1;
@@ -215,7 +217,7 @@ function update() {
 	}
 	
 	score++;
-	document.getElementById("score").innerHTML = score;
+	document.getElementById("score").innerHTML = score.toString();
 }
 
 
@@ -274,25 +276,6 @@ window.onload = function() {
 			draw();
 		}
 	}, 1000 / 60);
-	if (window.DeviceOrientationEvent) {
-	    window.addEventListener('deviceorientation', function (eventData) {
-	        LR = eventData.alpha;
-	        FB = eventData.beta;
-
-	        document.getElementById("originLR").innerHTML = originLR;
-	        document.getElementById("originFB").innerHTML = originFB;
-
-	        document.getElementById("LR").innerHTML = LR;
-	        document.getElementById("FB").innerHTML = FB;
-
-	        if (originLR == null || originLR == 0) {
-	            setOrigin(LR, FB);
-	        }
-	    });
-	}
-	else {
-	    alert("Device Orientation not supported on device or browser.");
-	}
 }
 
 function setOrigin(leftRight, frontBack) {
